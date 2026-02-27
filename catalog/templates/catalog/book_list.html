@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "catalog/base.html" %}
 {% block content %}
     <h1>Book List</h1>
     {% if book_list %}
@@ -6,6 +6,17 @@
         {% for book in book_list %}
             <li>
                 <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})</li>
+                <a class="btn btn-danger btn-sm"
+                    href="{% url 'catalog:book_delete' pk=book.pk %}">
+                    Delete
+                </a>
+            {% if user.is_superuser %}
+                <a class="btn btn-primary btn-sm" href="{% url 'catalog:book_update' pk=book.pk %}">Edit Book</a>
+            {% endif %}
+            {% if book.book_image %}
+                <img src="{{ book.book_image.url }}" alt="{{ book.title }}" style="height:60px; width:auto;">
+            {% endif %}
+            <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
         {% endfor %}
     </ul>
     {% else %}
@@ -13,5 +24,3 @@
     {% endif %}
 {% endblock %}
 
-class AuthorListView(LoginRequiredMixin, generic.ListView):
-    model = Author

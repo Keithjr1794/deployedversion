@@ -1,20 +1,45 @@
-{% extends "base.html" %}
-
+{% extends "catalog/base.html" %}
 {% block content %}
-<h1>Author List</h1>
+    <h1>Author List</h1>
 
-{% if author_list %}
-<ul>
-  {% for author in author_list %}
-    <li>
-      <a href="{% url 'author_detail' author.id %}">
-        {{ author.last_name }}, {{ author.first_name }}
-      </a>
-    </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>There are no authors in the library.</p>
-{% endif %}
+    {% if user.is_superuser %}
+        <p>
+            <a class="btn btn-success" href="{% url 'catalog:author_create' %}">Add Author</a>
+        </p>
+    {% endif %}
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show"
+role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if author_list %}
+        <table class="table table-bordered">
+            {% for author in author_list %}
+                <tr class="table-secondary">
+                    <td><a href="{{ author.get_absolute_url }}">{{
+author.first_name }} {{ author.last_name }}</a></td>
+
+                    {% if user.is_superuser %}
+                        {% if author.book_set.all %}
+                            <td>Books Exist - Cannot delete author</td>
+                        {% else %}
+                            <td><a href="{% url 'catalog:author_delete'
+pk=author.pk %}"
+                                onclick="return confirm('Are you sure you want to delete?')"
+                                class="btn btn-danger">Delete</a>
+                            </td>
+                        {% endif %}
+                        <td><a href="{% url 'catalog:author_update' pk=author.pk %}" class="btn btn-primary">Edit Author</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>There are no authors in the library.</p>
+    {% endif %}
 {% endblock %}

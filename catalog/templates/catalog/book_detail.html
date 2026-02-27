@@ -1,8 +1,17 @@
-{% extends "base.html" %}
+{% extends "catalog/base.html" %}
 {% block content %}
+
+    {% if book.book_image %}
+        <p>
+        <img src="{{ book.book_image.url }}" alt="{{ book.title }}" style="max-width:300px; height:auto;">
+        </p>
+    {% endif %}
     <h1>Title: {{ book.title }}</h1>
 
-    <p><strong>Author:</strong><a href="{% url 'author_detail' book.author.id %}">{{ book.author }}</a></p>
+
+
+
+    <p><strong>Author:</strong><a href="{% url 'catalog:author_detail' book.author.id %}">{{ book.author }}</a></p>
     <p><strong>Summary:</strong> {{ book.summary }}</p>
     <p><strong>ISBN:</strong> {{ book.isbn }}</p>
     <p><strong>Genre:</strong> {{ book.genre.all|join:", " }}</p>
@@ -22,5 +31,6 @@
         </div>
 {% endblock %}
 
-class AuthorDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Author
+<p>
+  <a class="btn btn-secondary" href="{% url 'catalog:book_list' %}">Back to Books</a>
+</p>
