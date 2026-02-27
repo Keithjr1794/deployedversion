@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-t_yp8jqkkx(0e1!rh$z51c)7!#wm7^ln98$@bp#9u+0t04#i-e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['montrol1794.pythonanywhere.com']
+INSTALLED_APPS = []
 
 
 # Application definition
@@ -138,3 +139,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+STATIC_ROOT = BASE_DIR / "staticfiles"
